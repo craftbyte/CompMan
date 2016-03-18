@@ -1,0 +1,2 @@
+# CompMan
+Logo competitition manager
