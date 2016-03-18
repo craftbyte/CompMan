@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/craftbyte/CompMan/issues"
   },
-  "homepage": "https://github.com/craftbyte/CompMan#readme"
+  "homepage": "https://github.com/craftbyte/CompMan#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "jade": "^1.11.0"
+  }
 }
