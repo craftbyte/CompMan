@@ -18,56 +18,63 @@ app.use(cookieParser())
 app.use(session({
 	secret: 'tuj7hzj6rfgt57ujhziofwefiweafweuihf34zr823jfvsbzvh8vb34hb4fsdfu83',
 	resave: true,
-	saveUninitialized: true 
+	saveUninitialized: true
 }))
 app.use(passport.initialize());
 app.use(passport.session());
 
 
 mongoose.connect('mongodb://localhost/Natecaj');
-passport.use('local' ,new LocalStrategy(function(username, password, done) {
+
+passport.use('local' ,new LocalStrategy({usernameField: 'email', passReqToCallback: true}, function(req, email, password, done) {
   process.nextTick(_ => {
-  	console.log(username);
+  	console.log(email);
   	console.log(password)
 	User.findOne({
-			'username': username, 
+			'email': email,
 	}, function(err, user) {
 		console.log(err,user)
 		if (err) {
 			return done(err);
 		}
-	
+
 		if (!user) {
 		  return done(null, false);
 		}
 
-		if (user.password != password) {
+		if (!user.validPassword(password)) {
 		  return done(null, false);
 		}
-
-  		return done(null, user);
+  	return done(null, user);
 	});
   });
 }));
 
-passport.use('local-signup', new LocalStrategy(function(username, password, done) {
+passport.use('local-signup', new LocalStrategy({usernameField: 'email', passReqToCallback: true}, function(req, email, password, done) {
   process.nextTick(_ => {
 	User.findOne({
-			'username': username, 
+			'email': email,
 	}, function(err, user) {
-			if (err) {
+		if (err) {
 			return done(err);
 		}
-	
-		if (!user) {
-		  return done(null, false);
-		}
 
-		if (user.password != password) {
+		if (user) {
 		  return done(null, false);
-		}
+		} else {
+			var user = new User();
 
-  		return done(null, user);
+			user.email = email;
+			user.name = name;
+			user.surname = surname;
+			user.password = user.generateHash(password);
+
+			user.save(function(err) {
+        if (err)
+          throw err;
+        return done(null, user);
+      });
+		}
 	});
   });
 }));

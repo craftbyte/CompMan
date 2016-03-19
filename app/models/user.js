@@ -2,8 +2,8 @@ var mongoose = require('mongoose')
 var bcrypt = require('bcrypt-nodejs')
 
 var object = {
-	username: {
-		type: String,
+	email: {
+		type: String, //TODO: make email datatype
 		required: true
 	},
 	password: {
