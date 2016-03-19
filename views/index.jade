@@ -1,40 +1,31 @@
 doctype html
-html
+html(ng-app="compMan")
 	head
 		link(rel="stylesheet" type="text/css" href="/css/bulma.min.css")
 		link(rel="stylesheet" href="/css/vex.css")
 		link(rel="stylesheet" href="/css/vex-theme-top.css")
 		script(src="/js/jquery-2.2.2.min.js")
 		script(src="/js/vex.combined.min.js")
-		script.
-			$(document).ready(function () {
-				$("#loginBtn").click(function () {
-					vex.dialog.open({
-						message: "Vnesi svoje uporabniško ime in geslo",
-						buttons: [
-							$.extend({}, vex.dialog.buttons.YES, {text: 'Prijava'}),
-							$.extend({}, vex.dialog.buttons.NO, {text: 'Prekliči'})
-						],
-						overlayClosesOnClick: false,
-						input: "<input name=\"username\" type=\"text\" placeholder=\"Uporabniško ime\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Geslo\" required />",
-						callback: function(data) {
-							if (data) {
-								$("#loginBtn").addClass("is-loading")
-							}
-						}
-					});
-				})
-				vex.defaultOptions.className = 'vex-theme-top'
-			})
-	body
+		script(src="/js/angular.min.js")
+		script(src="/js/moment.min.js")
+		script(src="/js/angular-moment.min.js")
+		script(src="/js/angular-modal-service.min.js")
+		script(src="/js/app.js")
+		title Natečaj SEŠTG
+	body(ng-controller="loginCtrl")
 		section.hero.is-info.is-bold.is-fullheight
 			header.header.is-fixed-top: .container
 				.header-left: .header-item.title.is-3 Natečaj za logotip SEŠTG
-				.header-right.header-menu: .header-item: a.button.is-success#loginBtn Prijava
+				.header-right.header-menu
+					.header-item: a.button.is-success(ng-class="{'is-loading': registerPending}" ng-click="signUp()") Registracija
+					.header-item: a.button.is-primary(ng-class="{'is-loading': loginPending}" ng-click="login()") Prijava
 				span.header-toggle
 					span
 					span
 					span
 			.hero-content
 				.container
-					h1.title.is-1 Prijave so odprte do 10.4.2016
+					h1.title.is-1 Čas je za nekaj novega
+					h3.subtitle.is-3 Prijave so odprte do 10.4.2016 do 10.00
+		script(type="text/ng-template", id="loginModal")
+			.modal-content test	

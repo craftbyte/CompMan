@@ -1,16 +1,26 @@
 doctype html
-html
+html(ng-app="compMan")
 	head
 		link(rel="stylesheet" type="text/css" href="/css/bulma.min.css")
+		link(rel="stylesheet" href="/css/vex.css")
+		link(rel="stylesheet" href="/css/vex-theme-top.css")
+		script(src="/js/jquery-2.2.2.min.js")
+		script(src="/js/vex.combined.min.js")
+		script(src="/js/angular.min.js")
+		script(src="/js/moment.min.js")
+		script(src="/js/angular-moment.min.js")
+		script(src="/js/angular-modal-service.min.js")
+		script(src="/js/app.js")
 	body
 		header.header.is-fixed-top: .container
 			.header-left: .header-item.title.is-3 Natečaj za logotip SEŠTG
 			.header-right.header-menu
-				.header-item
-					a.button.is-success Prijava
+				.header-item: strong: !{user.name + " " + user.surname}
+				.header-item: a.button.is-danger(href="/logout") Odjava
 			span.header-toggle
 				span
 				span
 				span
 
-		block content
+		.container
+			block content
