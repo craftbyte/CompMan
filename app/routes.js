@@ -1,20 +1,23 @@
+var User = require("./models").User;
+
 module.exports = function(app, passport) {
 	passport.serializeUser(function(user, done) {
 		done(null, user);
 	});
 
 	passport.deserializeUser(function(user, done) {
-		User.findById(id, function(err, user) {
+		User.findById(user._id, function(err, user) {
 			done(err, user);
 		});
 	});
 	app.get('/', (req,res) => {
 		if (req.isAuthenticated()) {
-			app.locals.user = req.user;
-			res.render('home')
+			res.locals.user = req.user;
+			if (req.user.type == "admin" || req.user.type == "moderator") res.render("admin/moderator");
+			else res.render('home');
 		}
 		else {
-			res.render('index')
+			res.render('index');
 		}
 	})
 
@@ -52,7 +55,59 @@ module.exports = function(app, passport) {
  		}
  		else res.redirect('/')
 	});
-
-	app.get('/auth', (req,res) => res.send(req.user))
+	
+	app.get("/users", isAdmin, (req, res) => {
+		if (req.session.message) {
+			res.locals.message = req.session.message;
+			req.session.message = undefined;
+		}
+		User.find(function (err, user){
+			res.render("admin/users", {users: user})
+		});
+	})
+	
+	app.get("/user/:id", isAdmin, (req, res) => {
+		User.findById(req.params.id).lean().exec((err, user) => {
+			res.render("admin/user", {user: user})
+		})
+	})
+	
+	app.post("/user/:id", isAdmin, (req,res) => {
+		User.findById(req.params.id).exec((err,user) => {
+			var attributes = ["name", "surname", "email", "type"]
+			attributes.forEach((attribute) => {
+				user[attribute] = req.body[attribute];
+			})
+			if (req.body.password) user.password = user.generateHash(req.body.password);
+			user.save();
+			req.session.message = {type:"success", content:"Uporabnik uspešno urejen"}
+			res.redirect("/users")
+		})
+	})
+	
+	app.get("/user/:id/delete", isAdmin, (req, res) => {
+		if (req.user._id == req.params.id) {
+			req.session.message = {type:"danger", content:"Sam sebe je nemogoče izbrisati"}
+			return res.redirect("/users")
+		}
+		User.findById(req.params.id).remove().exec(_ => {
+			req.session.message = {type:"success", content:"Uporabnik uspešno izbrisan"}
+			res.redirect("/users")
+		});
+	})
+	
+	function isAdmin(req, res, next) {
+		if (req.user.type == "admin")
+		    return next();
+		
+		res.redirect('/');
+	}
+	
+	function isModerator(req, res, next) {
+		if (req.user.type == "moderator" || req.user.type == "admin")
+		    return next();
+		
+		res.redirect('/');
+	}
 
 }

@@ -1,6 +1,23 @@
+/* global angular */
+
 angular.module('compMan', ['angularMoment', 'angularModalService'])
+.directive('pwcheck', [function(){
+	return {
+		require: 'ngModel',
+		link: function(scope, elem, attrs, ctrl){
+			var fpw = '#' + attrs.pwcheck;
+			elem.add(fpw).on('keyup', function(){
+				scope.$apply(function() {
+					var v = elem.val() === $(fpw).val();
+					
+					ctrl.$setValidity('pwmatch', v);
+				});
+			});
+		}
+	}
+}])
 .controller('loginCtrl', ['$http', '$scope', '$window', 'ModalService', ($http, $scope, $window, ModalService) => {
-	vex = $window.vex;
+	var vex = $window.vex;
 	$scope.login = () => {
 		vex.dialog.open({
 			message: "Vpiši podatke za prijavo",
@@ -32,7 +49,7 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 	$scope.signUp = () => {
 		vex.dialog.open({
 			message: "Vpiši podatke za registracijo",
-			input: "<input name=\"name\" type=\"text\" placeholder=\"Ime\" required />\n<input name=\"surname\" type=\"text\" placeholder=\"Priimek\" required />\n<input name=\"email\" type=\"email\" placeholder=\"E-poštni naslov\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Geslo\" required />\n<input name=\"passwordRepeat\" type=\"password\" placeholder=\"Ponovno geslo\" required />",
+			input: "<input name=\"name\" type=\"text\" placeholder=\"Ime\" required />\n<input name=\"surname\" type=\"text\" placeholder=\"Priimek\" required />\n<input name=\"email\" type=\"email\" placeholder=\"E-poštni naslov\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Geslo\" required />\n<input name=\"passwordRepeat\" pwcheck=\"password\"type=\"password\" placeholder=\"Ponovno geslo\" required />",
 			buttons: [
 				$.extend({}, vex.dialog.buttons.YES, {
 					text: 'Registracija'
@@ -48,7 +65,7 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 					$http.post('/register', data).then((response) => {
 						$window.location = "/auth"
 					}, (response) => {
-						vex.dialog.alert("gay data lol")
+						vex.dialog.alert("E-naslov že uporabljen")
 						$scope.registerPending=false;
 						$scope.$apply();
 					})

@@ -1,0 +1,28 @@
+extends ../top
+
+block content
+	nav.navbar(style="padding-top: 10px")
+		.navbar-left
+			.navbar-item: p.subtitle.is-4 Uporabniki
+		.navbar-right
+			.navbar-item: a.button.is-primary(href="/") Naloge
+			
+	if message
+		.notification(class=("is-"+message.type))= message.content
+	table.table
+		thead: tr
+			td
+			td Ime in priimek
+			td E-mail
+			td(colspan=2) Opravila
+		each user in users
+			tr
+				td.table-icon(title=user.type)
+					if user.type == "admin"
+						i.fa.fa-unlock
+					else if user.type == "moderator"
+						i.fa.fa-lock
+				td= user.name + " " + user.surname
+				td= user.email
+				td.table-link.table-icon: a(href="/user/"+user._id): i.fa.fa-edit
+				td.table-link.table-icon: a(href="/user/"+user._id+"/delete"): i.fa.fa-remove
