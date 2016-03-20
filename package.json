@@ -26,9 +26,12 @@
     "cookie-parser": "latest",
     "express": "latest",
     "express-session": "latest",
+    "gridfs-storage-engine": "^0.2.3",
+    "gridfs-stream": "^1.1.1",
     "jade": "latest",
     "mongoose": "latest",
     "morgan": "latest",
+    "multer": "^1.1.0",
     "passport": "latest",
     "passport-local": "latest"
   }

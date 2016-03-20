@@ -1,4 +1,23 @@
 extends top
 
 block content
-	h1.title ne bit feg
+	nav.navbar(style="padding-top: 10px")
+		.navbar-left
+			.navbar-item: p.subtitle.is-4 Oddane naloge
+		.navbar-right
+			.navbar-item: a.button.is-primary(href="/submit")
+				i.fa.fa-plus
+				| Oddaj novo
+	.columns(ng-controller="submissionCtrl")
+		.card(ng-repeat="submission in submissions")
+			.card-image
+				img(ng-src='/file/{{submission.thumbnail}}', alt='')
+			.card-content
+				.media
+					.media-content
+						p.title.is-5 {{submission._creator.name + " " + submission._creator.surname}}
+						p.subtitle.is-6 {{submission._creator.class}}
+					a(ng-href="/file/{{submission.file}}/download").button.is-info: i.fa.fa-download.fa-fw
+				.content
+					p.title.is-4 {{submission.name}}
+					p.subtitle {{submission.description}}

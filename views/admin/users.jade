@@ -6,13 +6,12 @@ block content
 			.navbar-item: p.subtitle.is-4 Uporabniki
 		.navbar-right
 			.navbar-item: a.button.is-primary(href="/") Naloge
-			
-	if message
-		.notification(class=("is-"+message.type))= message.content
+
 	table.table
 		thead: tr
 			td
 			td Ime in priimek
+			td Razred
 			td E-mail
 			td(colspan=2) Opravila
 		each user in users
@@ -20,9 +19,12 @@ block content
 				td.table-icon(title=user.type)
 					if user.type == "admin"
 						i.fa.fa-unlock
-					else if user.type == "moderator"
+					else if user.type == "mod"
 						i.fa.fa-lock
+					else
+						i.fa.fa-user
 				td= user.name + " " + user.surname
+				td= user.class
 				td= user.email
 				td.table-link.table-icon: a(href="/user/"+user._id): i.fa.fa-edit
 				td.table-link.table-icon: a(href="/user/"+user._id+"/delete"): i.fa.fa-remove

@@ -29,6 +29,20 @@ app.use(passport.session());
 
 mongoose.connect('mongodb://localhost/Natecaj');
 
+User.findOne( {type: 'admin'}, function (err, result) {
+    if (!result) {
+        var user = new User();
+        user.name = 'Super';
+        user.surname = 'Administrator'
+        user.class = '1337'
+        user.email = 'admin@local';
+        user.password = user.generateHash('admin');
+        user.type = 'admin';
+        user.save();
+        console.log('created new admin user (email: admin@local, password: admin');
+    }
+})
+
 //passport config
 
 require("./app/passport")(passport);

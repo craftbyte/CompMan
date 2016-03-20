@@ -5,6 +5,7 @@ html(ng-app="compMan")
 		link(rel="stylesheet" href="/css/vex.css")
 		link(rel="stylesheet" href="/css/vex-theme-top.css")
 		link(rel="stylesheet" href="/css/font-awesome.min.css")
+		link(rel="shortcut icon" href="/favicon.ico")
 		script(src="/js/jquery-2.2.2.min.js")
 		script(src="/js/vex.combined.min.js")
 		script(src="/js/angular.min.js")
@@ -12,22 +13,26 @@ html(ng-app="compMan")
 		script(src="/js/angular-moment.min.js")
 		script(src="/js/angular-modal-service.min.js")
 		script(src="/js/app.js")
+		title Natečaj SEŠTG
 	body
-		header.header.is-fixed-top: .container
+		header.header: .container
 			.header-left: .header-item.title.is-3 Natečaj za logotip SEŠTG
 			.header-right.header-menu
 				.header-item
 					if user.type == "admin"
 						i.fa.fa-unlock &nbsp;
-					if user.type == "moderator"
+					if user.type == "mod"
 						i.fa.fa-lock &nbsp;
 					strong !{user.name + " " + user.surname}
-				.header-item 
+				.header-item
+					if page !== "/"
+						a.button.is-info(href="/") Domov
 					a.button.is-danger(href="/logout") Odjava
 			span.header-toggle
 				span
 				span
 				span
-
 		.container
+			if message
+				.notification(class=("is-"+message.type), style='margin-top: 10px')= message.content
 			block content

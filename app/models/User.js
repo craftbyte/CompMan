@@ -13,10 +13,11 @@ var schema = new mongoose.Schema({
 	},
 	name: String,
 	surname: String,
+	class: String,
 	type: {
 		type: String,
 		default: 'user',
-		enum: ['user', 'moderator', 'admin']
+		enum: ['user', 'mod', 'admin']
 	}
 })
 

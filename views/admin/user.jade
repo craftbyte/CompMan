@@ -3,26 +3,30 @@ extends ../top
 block content
 	nav.navbar(style="padding-top: 10px")
 		.navbar-left
-			.navbar-item: p.subtitle.is-4= user.name + " " + user.surname
+			.navbar-item: p.subtitle.is-4= edituser.name + " " + edituser.surname
 		.navbar-right
-			.navbar-item: a.button.is-danger(href="/user/"+user._id+"/delete") Izbriši
-			
-	form(action="/user/"+user._id method="POST")
+			.navbar-item: a.button.is-danger(href="/user/"+edituser._id+"/delete") Izbriši
+
+	form(action="/user/"+edituser._id method="POST")
 		p.control
 			label.label(for="name") Ime
-			input(type="text" name="name" value=user.name).input#name
+			input(type="text" name="name" value=edituser.name).input#name
 		p.control
 			label.label(for="surname") Priimek
-			input(type="text" name="surname" value=user.surname).input#surname
+			input(type="text" name="surname" value=edituser.surname).input#surname
+		p.control
+			label.label(for="class") Razred
+			input(type="text" name="class" value=edituser.class).input#class
 		p.control
 			label.label(for="email") E-mail
-			input(type="email" name="email" value=user.email).input#email
+			input(type="email" name="email" value=edituser.email).input#email
 		p.control
 			label.label(for="password") Geslo (le če želite spremeniti)
 			input(type="password" name="password").input#password
 		p.control
-			spaw.select: select(name="type")
-				option(value="user" selected=(user.type=="user")) Uporabnik
-				option(value="moderator" selected=(user.type=="moderator")) Moderator
-				option(value="admin" selected=(user.type=="admin")) Administrator
+			label.label(for="type") Nivo dostopa
+			span.select: select(name="type")#type
+				option(value="user" selected=(edituser.type=="user")) Uporabnik
+				option(value="moderator" selected=(edituser.type=="moderator")) Moderator
+				option(value="admin" selected=(edituser.type=="admin")) Administrator
 		button(type="submit").button.is-success Potrdi

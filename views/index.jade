@@ -4,6 +4,8 @@ html(ng-app="compMan")
 		link(rel="stylesheet" type="text/css" href="/css/bulma.min.css")
 		link(rel="stylesheet" href="/css/vex.css")
 		link(rel="stylesheet" href="/css/vex-theme-top.css")
+		link(rel="stylesheet" href="/css/font-awesome.min.css")
+		link(rel="shortcut icon" href="/favicon.ico")
 		script(src="/js/jquery-2.2.2.min.js")
 		script(src="/js/vex.combined.min.js")
 		script(src="/js/angular.min.js")
@@ -17,8 +19,9 @@ html(ng-app="compMan")
 			header.header.is-fixed-top: .container
 				.header-left: .header-item.title.is-3 Natečaj za logotip SEŠTG
 				.header-right.header-menu
-					.header-item: a.button.is-success(ng-class="{'is-loading': registerPending}" ng-click="signUp()") Registracija
-					.header-item: a.button.is-primary(ng-class="{'is-loading': loginPending}" ng-click="login()") Prijava
+					.header-item: button.button.is-warning(ng-click="instructions()") Navodila
+					.header-item: button.button.is-success(ng-class="{'is-loading': registerPending}" ng-click="signUp()") Registracija
+					.header-item: button.button.is-primary(ng-class="{'is-loading': loginPending}" ng-click="login()") Prijava
 				span.header-toggle
 					span
 					span

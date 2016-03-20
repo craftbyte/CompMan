@@ -1,0 +1,21 @@
+extends top
+
+block content
+	.columns: form.column.is-6.is-offset-3(action="/submit" method="POST" enctype="multipart/form-data")
+		nav.navbar(style="padding-top: 10px")
+			.navbar-left
+				.navbar-item: p.subtitle.is-4 Oddaj izdelek
+			.navbar-right
+				.navbar-item: button.button.is-primary(type="submit") Oddaj
+		p.control: input(type="text" name="name" placeholder="Ime izdelka").input
+		p.control: textarea(name="description" rows=5 placeholder="Opis izdelka" style="resize: none;").textarea
+		p.control
+			label.label(for="file") Izvorna datoteka(pdf, ai, svg, cdr in podobno)
+			input(type="file" name="file")
+		p.control
+			label.label(for="thumbnail") Sličica (jpg,png,gif)
+			input(type="file" name="thumbnail")
+		p.control: label.checkbox(for="tosCheckbox")
+			input#tosCheckbox(type="checkbox" name="tos")
+			| Strinjam se s&nbsp;
+			a(href="/pogoji.pdf") Pogoji natečaja

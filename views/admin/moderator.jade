@@ -1,8 +1,27 @@
 extends ../top
 
 block content
-	nav.navbar(style="padding-top: 10px")
-		.navbar-left
-			.navbar-item: p.subtitle.is-4 Oddane naloge
-		.navbar-right
-			.navbar-item: a.button.is-primary(href="/users") Uporabniki
+	div(ng-controller="submissionCtrl")
+		nav.navbar(style="padding-top: 10px")
+			.navbar-left
+				.navbar-item: p.subtitle.is-4 Oddane naloge
+			if user.type == 'admin'
+				.navbar-right
+					.navbar-item: a.button.is-primary(href="/users") Uporabniki
+		.columns.is-gapless.is-multiline(ng-controller="submissionCtrl")
+			.card.column.is-third(ng-repeat="submission in submissions")
+				.card-image.is-text-centered
+					img(ng-src='/file/{{submission.thumbnail}}', alt='')
+				.card-content
+					.media
+						.media-content
+							p.title.is-5(title="{{submission._creator.email}}") {{submission._creator.name + " " + submission._creator.surname}}
+							p.subtitle.is-6 {{submission._creator.class}}
+						a(ng-href="/file/{{submission.file}}/download").button.is-info: i.fa.fa-download.fa-fw
+						| &nbsp;
+						button.button(ng-click="select(submission)" ng-class="{'is-danger': !submission.selected, 'is-success': submission.selected}")
+							i.fa.fa-square-o(ng-hide="submission.selected")
+							i.fa.fa-check-square-o(ng-show="submission.selected")
+					.content
+						p.title.is-4 {{submission.name}}
+						p {{submission.description}}
