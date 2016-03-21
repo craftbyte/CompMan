@@ -73,9 +73,6 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 			}
 		})
 	}
-	$scope.instructions = _ => {
-		$window.open("/instructions", 'navodila', 'height=250,width=1000')
-	}
 }])
 .controller('submissionCtrl', ['$scope', '$http', ($scope, $http) => {
 	$scope.showSelected = false;
