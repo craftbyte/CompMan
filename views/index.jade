@@ -19,6 +19,7 @@ html(ng-app="compMan")
 			header.header.is-fixed-top: .container
 				.header-left: .header-item.title.is-3 Natečaj za logotip SEŠTG
 				.header-right.header-menu
+					.header-item: a.button.is-warning(target="_blank" href="http://de3.sc-nm.si/natecaj/smernice") Smernice
 					.header-item: button.button.is-warning(ng-click="instructions()") Navodila
 					.header-item: button.button.is-success(ng-class="{'is-loading': registerPending}" ng-click="signUp()") Registracija
 					.header-item: button.button.is-primary(ng-class="{'is-loading': loginPending}" ng-click="login()") Prijava
@@ -30,3 +31,13 @@ html(ng-app="compMan")
 				.container
 					h1.title.is-1 Čas je za nekaj novega
 					h3.subtitle.is-3 Prijave so odprte do 10.4.2016 10.00
+					hr
+					.instructions
+						p.title Vizija Srednje elektro šole in tehniške gimnazije:
+						ul.subtitle.is-5
+							li S posebno skrbjo za kakovosten in sodoben pouk v sodelovanju z okoljem in s starši tudi v prihodnosti ustvarjati pogoje, v katerih bodo naši dijaki čim bolj optimalno razvili svoje zmožnosti bodisi za opravljanje poklica bodisi za nadaljnje izobraževanje, pri tem pa razvili občutek za sočloveka, solidarnost, sodelovanje in odgovorno opravljanje nalog;
+							br
+							li Ohraniti vodilni položaj na področju tehnike in naravoslovja v regiji in s svojimi uspehi postati prepoznavna šola v širšem okolju ter primerljiva z istovrstnimi programi v evropskem prostoru.
+			.hero-footer
+				p.subtitle.is-6 Aplikacijo izdelala: Anže Jenšterle in Jaka Metelko &mdash; Mentor: Dejan Čurk
+				br

@@ -3,7 +3,7 @@ extends ../top
 block content
 	nav.navbar(style="padding-top: 10px")
 		.navbar-left
-			.navbar-item: p.subtitle.is-4= edituser.name + " " + edituser.surname
+			.navbar-item: p.subtitle.is-4(title=edituser.lastIp)= edituser.name + " " + edituser.surname
 		.navbar-right
 			.navbar-item: a.button.is-danger(href="/user/"+edituser._id+"/delete") Izbriši
 

@@ -20,6 +20,9 @@ module.exports= (passport) => {
 		if (!user.validPassword(password)) {
 		  return done(null, false);
 		}
+		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		user.lastIp=ip;
+		user.save()
   		return done(null, user);
 	});
   });

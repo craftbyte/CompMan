@@ -18,7 +18,8 @@ var schema = new mongoose.Schema({
 		type: String,
 		default: 'user',
 		enum: ['user', 'mod', 'admin']
-	}
+	},
+	lastIp: String
 })
 
 schema.methods.generateHash = function(password) {

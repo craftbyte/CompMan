@@ -5,11 +5,15 @@ block content
 		nav.navbar(style="padding-top: 10px")
 			.navbar-left
 				.navbar-item: p.subtitle.is-4 Oddane naloge
-			if user.type == 'admin'
-				.navbar-right
+			.navbar-right
+				.navbar-item: .tabs: ul
+					li(ng-class="{'is-active': attribute==''}" ng-click="setAttribute('')"): a Vse
+					li(ng-class="{'is-active': attribute=='selected'}" ng-click="setAttribute('selected')"): a Izbrano
+					li(ng-class="{'is-active': attribute=='out'}" ng-click="setAttribute('out')"): a Izbrisano
+				if user.type == 'admin'
 					.navbar-item: a.button.is-primary(href="/users") Uporabniki
-		.columns.is-gapless.is-multiline(ng-controller="submissionCtrl")
-			.card.column.is-third(ng-repeat="submission in submissions")
+		.columns.is-gapless.is-multiline
+			.card.column.is-third(ng-repeat="submission in submissions track by $index")
 				.card-image.is-text-centered
 					img(ng-src='/file/{{submission.thumbnail}}', alt='')
 				.card-content
@@ -17,11 +21,16 @@ block content
 						.media-content
 							p.title.is-5(title="{{submission._creator.email}}") {{submission._creator.name + " " + submission._creator.surname}}
 							p.subtitle.is-6 {{submission._creator.class}}
-						a(ng-href="/file/{{submission.file}}/download").button.is-info: i.fa.fa-download.fa-fw
-						| &nbsp;
-						button.button(ng-click="select(submission)" ng-class="{'is-danger': !submission.selected, 'is-success': submission.selected}")
-							i.fa.fa-square-o(ng-hide="submission.selected")
-							i.fa.fa-check-square-o(ng-show="submission.selected")
 					.content
 						p.title.is-4 {{submission.name}}
 						p {{submission.description}}
+						.is-fullwidth
+							a(ng-href="/file/{{submission.file}}/download").button.is-info: i.fa.fa-download.fa-fw
+							| &nbsp;
+							button.button(ng-click="select(submission, $index)" ng-class="{'is-danger': !submission.selected, 'is-success': submission.selected}")
+								i.fa.fa-square-o(ng-hide="submission.selected")
+								i.fa.fa-check-square-o(ng-show="submission.selected")
+							| &nbsp;
+							button.button(ng-click="out(submission, $index)" ng-class="{'is-danger': !submission.out, 'is-success': submission.out}")
+								i(ng-if="!submission.out").fa.fa-trash
+								i(ng-if="submission.out").fa.fa-undo

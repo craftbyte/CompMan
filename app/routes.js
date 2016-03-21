@@ -114,9 +114,21 @@ module.exports = function(app, passport) {
 		res.render('submit');
 	});
 
+	var tosCheck = (req,res,next) => {
+		//FIXME: restore fields
+		//HACK: check before upload or delete if not checked
+		if (req.body.tos)
+			return next()
+		req.session.message = {
+			type: 'danger',
+			content: 'Potrebno je strinjanje s pogoji'
+		}
+		res.render('submit', {data: req.body})
+	}
+
 	var submissionUpload = upload.fields([{ name: 'file', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }])
 
-	app.post('/submit', submissionUpload, (req, res) => {
+	app.post('/submit', submissionUpload, tosCheck, (req, res) => {
 			// req.files.file[0].gridfsEntry._id is file id
 			// req.files.thumbnail[0].gridfsEntry._id is thumbnail id
 			var submission = new Submission();
@@ -133,9 +145,15 @@ module.exports = function(app, passport) {
 			res.redirect("/")
 	})
 
-	app.get('/submissions', (req,res) => {
+	app.get('/submissions/:attribute*?', (req,res) => {
 		if (req.user.type == "admin" || req.user.type == "moderator") {
-			Submission.find().populate("_creator").lean().exec((_, submissions) => {
+			var search = {}
+			if (req.params.attribute) {
+				search[req.params.attribute] = true
+			} else {
+				search.out = false;
+			}
+			Submission.find(search).populate("_creator").lean().exec((_, submissions) => {
 				res.send(submissions)
 			})
 		} else {
@@ -145,16 +163,19 @@ module.exports = function(app, passport) {
 		}
 	})
 
-	app.put('/select/:id', isModerator, (req,res) => {
+	app.put('/submission/:id', isModerator, (req,res) => {
 		Submission.findById(req.params.id, (_, submission) => {
-			submission.selected = req.body.state;
+			attributes = ["selected", "out"];
+			attributes.forEach((attribute) => {
+				submission[attribute] = req.body[attribute];
+			})
 			submission.save()
 			res.send(submission)
 		})
 	})
 
 	app.get("/users", isAdmin, (req, res) => {
-		User.find(function (err, users){
+		User.find().sort({surname:1}).exec(function (err, users){
 			res.render("admin/users", {users: users})
 		});
 	})

@@ -10,11 +10,11 @@ block content
 		p.control: input(type="text" name="name" placeholder="Ime izdelka").input
 		p.control: textarea(name="description" rows=5 placeholder="Opis izdelka" style="resize: none;").textarea
 		p.control
-			label.label(for="file") Izvorna datoteka(pdf, ai, svg, cdr in podobno)
-			input(type="file" name="file")
+			label.label(for="file") Izvorna datoteka (pdf, ai, svg, cdr in podobno)
+			input(type="file" name="file" required)
 		p.control
 			label.label(for="thumbnail") Sličica (jpg,png,gif)
-			input(type="file" name="thumbnail")
+			input(type="file" name="thumbnail" required)
 		p.control: label.checkbox(for="tosCheckbox")
 			input#tosCheckbox(type="checkbox" name="tos")
 			| Strinjam se s&nbsp;

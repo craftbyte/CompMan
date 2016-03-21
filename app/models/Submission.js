@@ -8,6 +8,10 @@ var schema = new mongoose.Schema({
 		type: Boolean,
 		default: false
 	},
+	out: {
+		type: Boolean,
+		default: false
+	},
 	date: {
 	    type: Date,
 	    default: Date.now()

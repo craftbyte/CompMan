@@ -80,15 +80,32 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 .controller('submissionCtrl', ['$scope', '$http', ($scope, $http) => {
 	$scope.showSelected = false;
 	$scope.submissions = []
+	$scope.attribute='';
 	$scope.reload = _ => {
-		$http.get('/submissions').then((response) => {
+		$http.get('/submissions/'+$scope.attribute).then((response) => {
 			$scope.submissions = response.data;
 		})
 	}
 	$scope.reload()
-	$scope.select = (submission) => {
+	$scope.select = (submission, index) => {
 		submission.selected = !submission.selected
-		$http.put('/select/'+submission._id, {state: submission.selected})
+		if ($scope.attribute == 'selected' && submission.selected == false) {
+			$scope.submissions.splice(index,1)
+		}
+		$http.put('/submission/'+submission._id, submission).then((response) => {
+			submission = response.data;
+		})
+	}
+	$scope.out = (submission, index) => {
+		submission.out = !submission.out;
+		$scope.submissions.splice(index,1)
+		$http.put('/submission/'+submission._id, submission).then((response) => {
+			submission = response.data;
+		})
+	}
+	$scope.setAttribute = (attribute) => {
+		$scope.attribute = attribute;
+		$scope.reload();
 	}
 }
 ])
