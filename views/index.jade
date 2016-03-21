@@ -20,7 +20,7 @@ html(ng-app="compMan")
 				.header-left: .header-item.title.is-3 Natečaj za logotip SEŠTG
 				.header-right.header-menu
 					.header-item: a.button.is-warning(target="_blank" href="http://de3.sc-nm.si/natecaj/smernice") Smernice
-					.header-item: button.button.is-warning(ng-click="instructions()") Navodila
+					.header-item: button.button.is-warning(target="_blank" href="http://de3.sc-nm.si/natecaj/pogoji.pdf") Navodila
 					.header-item: button.button.is-success(ng-class="{'is-loading': registerPending}" ng-click="signUp()") Registracija
 					.header-item: button.button.is-primary(ng-class="{'is-loading': loginPending}" ng-click="login()") Prijava
 				span.header-toggle
