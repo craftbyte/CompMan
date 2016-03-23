@@ -13,9 +13,9 @@ block content
 			label.label(for="file") Izvorna datoteka (pdf, ai, svg, cdr in podobno)
 			input(type="file" name="file" required)
 		p.control
-			label.label(for="thumbnail") Sličica (jpg,png,gif)
-			input(type="file" name="thumbnail" required)
+			label.label(for="thumbnail") Sličica (jpg, png, gif)
+			input(type="file" name="thumbnail" required accept=".gif,.jpg,.jpeg,.png")
 		p.control: label.checkbox(for="tosCheckbox")
-			input#tosCheckbox(type="checkbox" name="tos")
+			input#tosCheckbox(type="checkbox" name="tos" required)
 			| Strinjam se s&nbsp;
 			a(href="http://de3.sc-nm.si/natecaj/pogoji.pdf") Pogoji natečaja

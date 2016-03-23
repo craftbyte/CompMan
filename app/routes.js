@@ -123,7 +123,7 @@ module.exports = function(app, passport) {
 			type: 'danger',
 			content: 'Potrebno je strinjanje s pogoji'
 		}
-		res.render('submit', {data: req.body})
+		res.redirect('/submit')
 	}
 
 	var submissionUpload = upload.fields([{ name: 'file', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }])
