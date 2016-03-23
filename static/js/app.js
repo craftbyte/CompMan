@@ -1,22 +1,7 @@
 /* global angular Upload */
 
 angular.module('compMan', ['angularMoment', 'angularModalService'])
-.directive('pwcheck', [function(){
-	return {
-		require: 'ngModel',
-		link: function(scope, elem, attrs, ctrl){
-			var fpw = '#' + attrs.pwcheck;
-			elem.add(fpw).on('keyup', function(){
-				scope.$apply(function() {
-					var v = elem.val() === $(fpw).val();
-
-					ctrl.$setValidity('pwmatch', v);
-				});
-			});
-		}
-	}
-}])
-.controller('loginCtrl', ['$http', '$scope', '$window', 'ModalService', ($http, $scope, $window, ModalService) => {
+.controller('loginCtrl', ['$http', '$scope', '$window', ($http, $scope, $window) => {
 	var vex = $window.vex;
 	$scope.login = () => {
 		vex.dialog.open({
@@ -49,7 +34,7 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 	$scope.signUp = () => {
 		vex.dialog.open({
 			message: "Vpiši podatke za registracijo",
-			input: "<input name=\"name\" type=\"text\" placeholder=\"Ime\" required />\n<input name=\"surname\" type=\"text\" placeholder=\"Priimek\" required />\n<input name=\"class\" type=\"text\" placeholder=\"Razred\" required />\n<input name=\"email\" type=\"email\" placeholder=\"E-poštni naslov\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Geslo\" required />\n<input name=\"passwordRepeat\" pwcheck=\"password\"type=\"password\" placeholder=\"Ponovno geslo\" required />",
+			input: "<input name=\"name\" type=\"text\" placeholder=\"Ime\" required />\n<input name=\"surname\" type=\"text\" placeholder=\"Priimek\" required />\n<input name=\"class\" type=\"text\" placeholder=\"Razred\" required />\n<input name=\"email\" type=\"email\" placeholder=\"E-poštni naslov\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Geslo\" required />",
 			buttons: [
 				$.extend({}, vex.dialog.buttons.YES, {
 					text: 'Registracija'
