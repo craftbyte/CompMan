@@ -18,11 +18,11 @@ block content
 			tr
 				td.table-icon(title=user.type)
 					if user.type == "admin"
-						i.fa.fa-unlock
+						i.fa.fa-unlock(style="color: #ed6c63")
 					else if user.type == "mod"
-						i.fa.fa-lock
+						i.fa.fa-lock(style="color: #f68b39")
 					else
-						i.fa.fa-user
+						i.fa.fa-user(style="color: #97cd76")
 				td= user.name + " " + user.surname
 				td= user.class
 				td= user.email

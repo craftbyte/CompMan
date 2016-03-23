@@ -40,7 +40,7 @@ module.exports = function(app, passport) {
 	app.get('/', (req,res) => {
 		if (req.isAuthenticated()) {
 			res.locals.user = req.user;
-			if (req.user.type == "admin" || req.user.type == "moderator") {
+			if (req.user.type == "admin" || req.user.type == "mod") {
 				Submission.find().populate('_creator').lean().exec((_, submissions) => {
 					res.render("admin/moderator", {submissions: submissions})
 				})
@@ -146,7 +146,7 @@ module.exports = function(app, passport) {
 	})
 
 	app.get('/submissions/:attribute*?', (req,res) => {
-		if (req.user.type == "admin" || req.user.type == "moderator") {
+		if (req.user.type == "admin" || req.user.type == "mod") {
 			var search = {}
 			if (req.params.attribute) {
 				search[req.params.attribute] = true
@@ -226,7 +226,7 @@ module.exports = function(app, passport) {
 	}
 
 	function isModerator(req, res, next) {
-		if (req.user.type == "moderator" || req.user.type == "admin")
+		if (req.user.type == "mod" || req.user.type == "admin")
 		    return next();
 
 		req.session.message = {

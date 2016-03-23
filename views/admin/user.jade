@@ -27,6 +27,6 @@ block content
 			label.label(for="type") Nivo dostopa
 			span.select: select(name="type")#type
 				option(value="user" selected=(edituser.type=="user")) Uporabnik
-				option(value="moderator" selected=(edituser.type=="moderator")) Moderator
+				option(value="mod" selected=(edituser.type=="mod")) Moderator
 				option(value="admin" selected=(edituser.type=="admin")) Administrator
 		button(type="submit").button.is-success Potrdi
