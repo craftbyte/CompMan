@@ -36,10 +36,10 @@ User.findOne( {type: 'admin'}, function (err, result) {
     user.surname = 'Administrator'
     user.class = '1337'
     user.email = 'admin@local';
-    user.password = user.generateHash('admin');
+    user.local.password = user.generateHash('admin');
     user.type = 'admin';
     user.save();
-    console.log('created new admin user (email: admin@local, password: admin');
+    console.log('created new admin user (email: admin@local, password: admin)');
   }
 })
 

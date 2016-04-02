@@ -58,20 +58,13 @@ module.exports = function(app, passport) {
 	})
 
 	app.get("/saml",
-		passport.authenticate('saml',
-		{
-			successRedirect : "/",
-			failureRedirect : "/",
-		})
+		passport.authenticate('saml', { failureRedirect : "/"})
 	);
 
 	app.post('/saml/consume',
-		passport.authenticate('saml',
-			{
-				failureRedirect: '/',
-				failureFlash: true
-			}),
+		passport.authenticate('saml', { failureRedirect: '/', successRedirect : "/"}),
 		function(req, res) {
+			console.log(req.user)
 			res.redirect('/');
 		}
 	);

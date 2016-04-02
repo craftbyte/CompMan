@@ -13,8 +13,27 @@ module.exports = (passport) => {
 	    	issuer: 'megavet'
 		},
 		function(account, done) {
-			console.log(account)
-  		}
+			process.nextTick(_ => {
+				User.findOne({'saml': {'nid': account.eduPersonPrincipalName}}, function(err, user) {
+					if (err) {
+						return done(err);
+					}
+					if (user) {return done(null, user);}
+					else {
+						var user = new User();
+
+						user.email = account.eduPersonPrincipalName;
+						user.saml.nid = account.eduPersonPrincipalName;
+						user.name = account.givenName;
+						user.surname = account.sn;
+						user.save(function(err) {
+			        	if (err) return done(err)
+							return done(null, user);
+						});
+					}
+				});
+  			})
+		}
   	)
 
 	passport.use(SAMLStrategy);
@@ -62,7 +81,9 @@ passport.use('local-signup', new LocalStrategy({usernameField: 'email', passReqT
 			user.name = req.body.name.toProperCase();
 			user.surname = req.body.surname.toProperCase();
 			user.class = req.body.class.toProperCase();
-			user.password = user.generateHash(password);
+			user.local.password = user.generateHash(password);
+			var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+			user.lastIp=ip;
 
 			user.save(function(err) {
         if (err)
