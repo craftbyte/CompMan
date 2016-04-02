@@ -1,9 +1,25 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require("./models").User
+var SAMLProvider = require('passport-saml').Strategy;
 
 require("./prototypes")()
 
-module.exports= (passport) => {
+module.exports = (passport) => {
+
+	var SAMLStrategy = new SAMLProvider({
+	    	callbackUrl: 'http://compman-craftbyte-1.c9users.io/saml/consume',
+	    	entryPoint: 'https://idp.sc-nm.si/simplesaml/saml2/idp/SSOService.php',
+	    	logoutUrl: 'https://idp.sc-nm.si/simplesaml/saml2/idp/SingleLogoutService.php',
+	    	issuer: 'megavet'
+		},
+		function(account, done) {
+			console.log(account)
+  		}
+  	)
+
+	passport.use(SAMLStrategy);
+
+
     passport.use('local' ,new LocalStrategy({usernameField: 'email', passReqToCallback: true}, function(req, email, password, done) {
   process.nextTick(_ => {
 	User.findOne({

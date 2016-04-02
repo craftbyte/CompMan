@@ -54,8 +54,28 @@ module.exports = function(app, passport) {
 	})
 
 	app.get('/instructions', (req, res) => {
-		res.render('instructions.jade')
+		res.render('instructions')
 	})
+
+	app.get("/saml",
+		passport.authenticate('saml',
+		{
+			successRedirect : "/",
+			failureRedirect : "/",
+		})
+	);
+
+	app.post('/saml/consume',
+		passport.authenticate('saml',
+			{
+				failureRedirect: '/',
+				failureFlash: true
+			}),
+		function(req, res) {
+			res.redirect('/');
+		}
+	);
+
 
 	app.post('/login', (req, res, next) => {
 		passport.authenticate('local', (err, user, info) => {
@@ -69,6 +89,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/register', (req,res,next) => {
+		//TODO: Email check @valid ? local || saml
 		passport.authenticate('local-signup', (err, user, info) => {
 			if (err) return next(err);
 			if (!user) return res.status(403).send("fail");
@@ -115,7 +136,7 @@ module.exports = function(app, passport) {
 	});
 
 	var tosCheck = (req,res,next) => {
-		//FIXME: restore fields
+		//FIXME: restore fields // No need keep it evil.
 		//HACK: check before upload or delete if not checked
 		if (req.body.tos)
 			return next()
@@ -165,13 +186,19 @@ module.exports = function(app, passport) {
 
 	app.put('/submission/:id', isModerator, (req,res) => {
 		Submission.findById(req.params.id, (_, submission) => {
-			attributes = ["selected", "out"];
+			var attributes = ["selected", "out"];
 			attributes.forEach((attribute) => {
 				submission[attribute] = req.body[attribute];
 			})
 			submission.save()
 			res.send(submission)
 		})
+	})
+
+	app.get('/users/list', isAdmin, (req,res) => {
+		User.find().exec(function (err, users){
+			res.send(users)
+		});
 	})
 
 	app.get("/users", isAdmin, (req, res) => {
@@ -205,7 +232,7 @@ module.exports = function(app, passport) {
 
 	app.get("/user/:id/delete", isAdmin, (req, res) => {
 		if (req.user._id == req.params.id) {
-			req.session.message = {type:"danger", content:"Sam sebe je nemogoče izbrisati"}
+			req.session.message = {type:"danger", content:"Nemogoče izbrisati trenutnega uporabnika"}
 			return res.redirect("/users")
 		}
 		User.findById(req.params.id).remove().exec(_ => {
@@ -218,21 +245,12 @@ module.exports = function(app, passport) {
 		if (req.user.type == "admin")
 		    return next();
 
-		req.session.message = {
-			type: 'warning',
-			content: 'Stran je namenjena le osebju'
-		}
 		res.redirect('/');
 	}
 
 	function isModerator(req, res, next) {
 		if (req.user.type == "mod" || req.user.type == "admin")
 		    return next();
-
-		req.session.message = {
-			type: 'warning',
-			content: 'Stran je namenjena le osebju'
-		}
 
 		res.redirect('/');
 	}

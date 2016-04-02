@@ -1,6 +1,6 @@
 var express = require('express'),
 morgan = require('morgan'),
-passport = require("passport"),
+passport = require('passport'),
 mongoose = require('mongoose/'),
 bodyParser = require('body-parser'),
 cookieParser = require('cookie-parser'),
@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({
-	secret: 'tuj7hzj6rfgt57ujhziofwefiweafweuihf34zr823jfvsbzvh8vb34hb4fsdfu83', //TODO: Better secret
+	secret: 'tuj7hzj6rfgt57ujhziofwefiweafweuihf34zr823jfvsbzvh8vb34hb4fsdfu83',
 	resave: true,
 	saveUninitialized: true,
 	store: new MongoStore({mongooseConnection: mongoose.connection})
@@ -30,17 +30,17 @@ app.use(passport.session());
 mongoose.connect('mongodb://localhost/Natecaj');
 
 User.findOne( {type: 'admin'}, function (err, result) {
-    if (!result) {
-        var user = new User();
-        user.name = 'Super';
-        user.surname = 'Administrator'
-        user.class = '1337'
-        user.email = 'admin@local';
-        user.password = user.generateHash('admin');
-        user.type = 'admin';
-        user.save();
-        console.log('created new admin user (email: admin@local, password: admin');
-    }
+  if (!result) {
+    var user = new User();
+    user.name = 'Super';
+    user.surname = 'Administrator'
+    user.class = '1337'
+    user.email = 'admin@local';
+    user.password = user.generateHash('admin');
+    user.type = 'admin';
+    user.save();
+    console.log('created new admin user (email: admin@local, password: admin');
+  }
 })
 
 //passport config

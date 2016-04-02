@@ -2,14 +2,20 @@ var mongoose = require('mongoose')
 var bcrypt = require('bcrypt-nodejs')
 
 
-var schema = new mongoose.Schema({
+var usr = new mongoose.Schema({
 	email: {
 		type: String, //TODO: make email datatype
 		required: true
 	},
-	password: {
-		type: String,
-		required: true
+	local: {
+		password: {
+			type: String,
+		}
+	},
+	saml: {
+		nid: {
+			type: String,
+		}
 	},
 	name: String,
 	surname: String,
@@ -22,12 +28,12 @@ var schema = new mongoose.Schema({
 	lastIp: String
 })
 
-schema.methods.generateHash = function(password) {
+usr.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-schema.methods.validPassword = function(password) {
+usr.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
-module.exports = mongoose.model('User', schema);
+module.exports = mongoose.model('User', usr);

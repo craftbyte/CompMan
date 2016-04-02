@@ -91,6 +91,17 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 	}
 }
 ])
+.controller('usersCtrl', ['$scope', '$http', ($scope, $http) => {
+	$scope.reload = _ => {
+		$http.get('/users/list').then(response => {
+			$scope.users = response.data
+		})
+	}
+	$scope.reload();
+
+	$scope.sortType = 'surname';
+	$scope.sortReverse = false;
+}])
 .run((amMoment, $window) => {
 	amMoment.changeLocale('sl');
 	$window.vex.defaultOptions.className = 'vex-theme-top';

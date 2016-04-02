@@ -6,25 +6,21 @@ block content
 			.navbar-item: p.subtitle.is-4 Uporabniki
 		.navbar-right
 			.navbar-item: a.button.is-primary(href="/") Naloge
-
-	table.table
-		thead: tr
-			td
-			td Ime in priimek
-			td Razred
-			td E-mail
-			td(colspan=2) Opravila
-		each user in users
-			tr
-				td.table-icon(title=user.type)
-					if user.type == "admin"
-						i.fa.fa-unlock(style="color: #ed6c63")
-					else if user.type == "mod"
-						i.fa.fa-lock(style="color: #f68b39")
-					else
-						i.fa.fa-user(style="color: #97cd76")
-				td= user.name + " " + user.surname
-				td= user.class
-				td= user.email
-				td.table-link.table-icon: a(href="/user/"+user._id): i.fa.fa-edit
-				td.table-link.table-icon: a(href="/user/"+user._id+"/delete"): i.fa.fa-remove
+	div(ng-controller='usersCtrl')
+		table.table
+			thead: tr
+				td
+				td Ime
+				td Priimek
+				td Razred
+				td E-mail
+				td(colspan=2) Opravila
+			tr(ng-repeat='user in users | orderBy:"class"')
+				td.table-icon(title='{{user.type}}')
+					i.fa(ng-class="{'fa-unlock admin': user.type=='admin', 'fa-lock mod': user.type=='mod', 'fa-user user': user.type=='user'}")
+				td {{user.name}}
+				td {{user.surname}}
+				td {{user.class}}
+				td {{user.email}}
+				td.table-link.table-icon: a(href="/user/{{user._id}}"): i.fa.fa-edit
+				td.table-link.table-icon: a(href="/user/{{user._id}}/delete"): i.fa.fa-remove

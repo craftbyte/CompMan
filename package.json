@@ -33,6 +33,7 @@
     "morgan": "latest",
     "multer": "^1.1.0",
     "passport": "latest",
-    "passport-local": "latest"
+    "passport-local": "latest",
+    "passport-saml": "^0.15.0"
   }
 }
