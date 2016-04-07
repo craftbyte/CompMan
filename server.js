@@ -8,7 +8,8 @@ session = require('express-session'),
 models = require('./app/models'),
 User = models.User,
 MongoStore = require('connect-mongo')(session),
-app = express();
+app = express(),
+config=require("./config");
 
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/static'));
@@ -27,14 +28,14 @@ app.use(passport.session());
 
 //connect to DB
 
-mongoose.connect('mongodb://localhost/Natecaj');
+mongoose.connect(config.databaseUrl);
 
 User.findOne( {type: 'admin'}, function (err, result) {
   if (!result) {
     var user = new User();
     user.name = 'Super';
     user.surname = 'Administrator'
-    user.class = '1337'
+    user.school = 'Data Center'
     user.email = 'admin@local';
     user.local.password = user.generateHash('admin');
     user.type = 'admin';
@@ -42,6 +43,11 @@ User.findOne( {type: 'admin'}, function (err, result) {
     console.log('created new admin user (email: admin@local, password: admin)');
   }
 })
+
+//main config
+
+fs = require ('fs');
+
 
 //passport config
 

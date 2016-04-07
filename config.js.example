@@ -1,0 +1,12 @@
+module.exports={
+	"databaseUrl":"mongodb://localhost/compman",
+	"auth": {
+		"saml":false,
+		"local":true
+	},
+	"saml":{
+		"url":"",
+		"entityName":"comp"
+	}
+
+}

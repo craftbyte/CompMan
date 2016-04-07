@@ -5,12 +5,10 @@ var schema = new mongoose.Schema({
 	name: String,
 	description: String,
 	selected: {
-		type: Boolean,
-		default: false
+		type: Array
 	},
 	out: {
-		type: Boolean,
-		default: false
+		type: Array
 	},
 	date: {
 	    type: Date,

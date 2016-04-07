@@ -13,13 +13,13 @@ var usr = new mongoose.Schema({
 		}
 	},
 	saml: {
-		nid: {
+		id: {
 			type: String,
 		}
 	},
 	name: String,
 	surname: String,
-	class: String,
+	school: String,
 	type: {
 		type: String,
 		default: 'user',

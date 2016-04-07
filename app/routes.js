@@ -69,7 +69,6 @@ module.exports = function(app, passport) {
 		}
 	);
 
-
 	app.post('/login', (req, res, next) => {
 		passport.authenticate('local', (err, user, info) => {
 			if (err) return next(err);
@@ -162,12 +161,30 @@ module.exports = function(app, passport) {
 	app.get('/submissions/:attribute*?', (req,res) => {
 		if (req.user.type == "admin" || req.user.type == "mod") {
 			var search = {}
+			var query = {}
 			if (req.params.attribute) {
 				search[req.params.attribute] = true
 			} else {
 				search.out = false;
 			}
-			Submission.find(search).populate("_creator").lean().exec((_, submissions) => {
+			var attributes = ["out", "selected"]
+			attributes.forEach((attribute) => {
+				if (search[attribute] === true) {
+					query[attribute] = {}
+					query[attribute].$in = [req.user._id]
+				} else if (search[attribute] === false) {
+					query[attribute] = {}
+					query[attribute].$nin = [req.user._id]
+				}
+			})
+			Submission.find(query).populate("_creator").lean().exec((_, submissions) => {
+				console.log(submissions);
+				submissions.forEach((submission) => {
+					attributes.forEach((attribute) => {
+						console.log(submission[attribute]);
+						submission[attribute] = (submission[attribute].indexOf(req.user._id) >= 0)
+					})
+				})
 				res.send(submissions)
 			})
 		} else {
@@ -179,9 +196,17 @@ module.exports = function(app, passport) {
 
 	app.put('/submission/:id', isModerator, (req,res) => {
 		Submission.findById(req.params.id, (_, submission) => {
+			var setAttribute = (attribute, value) => {
+				console.log(attribute, value, submission[attribute])
+				if (value && submission[attribute].indexOf(req.user._id) < 0) {
+					submission[attribute].push(req.user._id)
+				} else if (!value && submission[attribute].indexOf(req.user._id) >= 0) {
+					submission[attribute].splice(submission[attribute].indexOf(req.user._id))
+				}
+			}
 			var attributes = ["selected", "out"];
 			attributes.forEach((attribute) => {
-				submission[attribute] = req.body[attribute];
+				setAttribute(attribute, submission[attribute])
 			})
 			submission.save()
 			res.send(submission)
@@ -208,7 +233,7 @@ module.exports = function(app, passport) {
 
 	app.post("/user/:id", isAdmin, (req,res) => {
 		User.findById(req.params.id).exec((err,user) => {
-			var properAttributes = ["name", "surname", "class"]
+			var properAttributes = ["name", "surname"]
 			properAttributes.forEach((attribute) => {
 				user[attribute] = req.body[attribute].toProperCase(true);
 			})

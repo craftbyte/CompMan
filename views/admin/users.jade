@@ -12,7 +12,7 @@ block content
 				td
 				td Ime
 				td Priimek
-				td Razred
+				td Šola
 				td E-mail
 				td(colspan=2) Opravila
 			tr(ng-repeat='user in users | orderBy:"class" track by $index')
@@ -20,7 +20,7 @@ block content
 					i.fa(ng-class="{'fa-unlock admin': user.type=='admin', 'fa-lock mod': user.type=='mod', 'fa-user user': user.type=='user'}")
 				td {{user.name}}
 				td {{user.surname}}
-				td {{user.class}}
+				td {{user.school}}
 				td {{user.email}}
 				td.table-link.table-icon: a(href="/user/{{user._id}}"): i.fa.fa-edit
 				td.table-link.table-icon: a(href="/user/{{user._id}}/delete"): i.fa.fa-remove

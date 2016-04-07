@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require("./models").User
 var SAMLProvider = require('passport-saml').Strategy;
+var config = require("../config")
 
 require("./prototypes")()
 
@@ -8,28 +9,33 @@ module.exports = (passport) => {
 
 	var SAMLStrategy = new SAMLProvider({
 	    	callbackUrl: 'http://compman-craftbyte-1.c9users.io/saml/consume',
-	    	entryPoint: 'https://idp.sc-nm.si/simplesaml/saml2/idp/SSOService.php',
-	    	logoutUrl: 'https://idp.sc-nm.si/simplesaml/saml2/idp/SingleLogoutService.php',
-	    	issuer: 'megavet'
+	    	entryPoint: config.saml.url,
+	    	issuer: config.saml.entityName
 		},
 		function(account, done) {
 			process.nextTick(_ => {
-				User.findOne({'saml': {'nid': account.eduPersonPrincipalName}}, function(err, user) {
+				User.findOne({'saml.id': account.eduPersonPrincipalName}, function(err, user) {
 					if (err) {
 						return done(err);
 					}
-					if (user) {return done(null, user);}
+					if (user) {
+						return done(null, user);
+					}
 					else {
 						var user = new User();
+						console.log(account)
 
-						user.email = account.eduPersonPrincipalName;
-						user.saml.nid = account.eduPersonPrincipalName;
+						user.email = account.mail || account.eduPersonPrincipalName;
+						user.saml.id = account.eduPersonPrincipalName;
+						user.school = account.o;
 						user.name = account.givenName;
 						user.surname = account.sn;
-						user.save(function(err) {
-			        	if (err) return done(err)
-							return done(null, user);
-						});
+						user.save(
+							function(err) {
+			        			if (err) return done(err);
+								return done(null, user);
+							}
+						);
 					}
 				});
   			})
