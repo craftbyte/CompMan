@@ -1,38 +1,57 @@
-doctype html
-html(ng-app="compMan")
+html
 	head
-		link(rel="stylesheet" type="text/css" href="/css/bulma.min.css")
-		link(rel='stylesheet' type='text/css' href='/css/main.css')
-		link(rel="stylesheet" href="/css/vex.css")
-		link(rel="stylesheet" href="/css/vex-theme-top.css")
-		link(rel="stylesheet" href="/css/font-awesome.min.css")
-		link(rel="shortcut icon" href="/favicon.ico")
-		script(src="/js/jquery-2.2.2.min.js")
-		script(src="/js/vex.combined.min.js")
-		script(src="/js/angular.min.js")
-		script(src="/js/moment.min.js")
-		script(src="/js/angular-moment.min.js")
-		script(src="/js/angular-modal-service.min.js")
-		script(src="/js/app.js")
-		title Natečaj MegaVET
-	body(ng-controller="loginCtrl")
-		section.hero.is-info.is-bold.is-fullheight
-			header.header.is-fixed-top: .container
-				.header-left: .header-item.title.is-3 Natečaj za logotip MegaVET
-				.header-right.header-menu
-					.header-item: a.button.is-success(href="saml") Prijava
-				span.header-toggle
-					span
-					span
-					span
-			.hero-content
-				.container
-					h1.title.is-1 MegaVET
-					h3.subtitle.is-3 Move to Enhance the Gamified Applications in Vocational Education Training
-					//-
-						hr
-						.instructions
-
-			.hero-footer
-				p.subtitle.is-6 Aplikacijo izdelala: Anže Jenšterle in Jaka Metelko &mdash; Mentor: Dejan Čurk
+		link(rel='stylesheet', type='text/css', href='main.css')
+	body
+		header
+			.stack
+				ul
+					li
+						img(src='img/bakanlik.jpg')
+					li
+						img(src='img/eu.png')
+					li
+						img(src='img/ajans.jpg')
+					li
+						img(src='img/scnm.png')
+					.float-right
+						li
+							a.button NAVODILA
+						li
+							a.button(href="/saml") PRIJAVA
+			hr
+		main
+			#title MEGAVET
+			#subtitle
+				span M
+				| ove to
+				span E
+				| nhance the
+				span G
+				| amified
+				span A
+				| pplications in
+				span V
+				| ocational
+				span E
+				| ducation
+				span T
+				| raining
 				br
+				a(href='http://www.mega-vet.eu') www.mega-vet.eu
+			#moto
+				| GAMI
+				span FICATION
+		footer
+			hr
+			.stack
+				ul
+					li
+						img(src='img/gr.png')
+					li
+						img(src='img/tr.png')
+					li
+						img(src='img/sl.png')
+					li
+						img(src='img/es.png')
+					li
+						img(src='img/it.png')

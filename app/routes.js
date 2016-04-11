@@ -128,7 +128,7 @@ module.exports = function(app, passport) {
 	});
 
 	var tosCheck = (req,res,next) => {
-		//FIXME: restore fields // No need keep it evil.
+		//FIXME: restore fields // No need keep it evil. // At least get your grammar right, there needs to be a fucking comma.
 		//HACK: check before upload or delete if not checked
 		if (req.body.tos)
 			return next()
