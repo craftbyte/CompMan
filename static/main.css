@@ -26,7 +26,8 @@ body::after {
   height: 100%;
   z-index: -1;
   background: url('img/bg.jpg') center center no-repeat;
-  -webkit-filter: opacity(0.3);
+  -webkit-filter: opacity(0.25);
+  filter: opacity(0.25);
   background-size: contain;
 }
 
@@ -52,13 +53,37 @@ footer .stack {
 }
 
 main {
-  margin: 2%;
-  position: relative;
+  margin: auto 2%;
   text-align: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-80%);
+}
+
+
+.content {
+
 }
 
 hr {
   border: 1px solid lightgray;
+}
+
+img {
+  border-radius: 0.2em;
+}
+
+a:not(.button) {
+  color: #64AFD9;
+  text-decoration: none;
+}
+
+a:hover:not(.button) {
+  color: #90BCD4;
+}
+
+a:visited:not(.button) {
+  color: #5DA3C9;
 }
 
 .control ul {
@@ -68,7 +93,9 @@ hr {
 }
 
 .button {
+  text-decoration: none;
   background-color: #FFC600;
+  display: block;
   color: white;
   padding: 0.6em 2em;
   margin: 0.1em;
@@ -78,18 +105,18 @@ hr {
 }
 
 #title {
-  font-size: 2.5em;
+  font-size: 3.5em;
   font-family: "Exo 2";
   font-weight: bold;
 }
 
 #subtitle {
-  font-size: 1.25em;
+  font-size: 2.25em;
   font-family: "Exo 2";
 }
 
 #subtitle a {
-  font-size: 1em;
+  font-size: 1.8em;
   text-decoration: none;
 }
 
@@ -98,16 +125,45 @@ hr {
   color: #71d100;
 }
 
+#moto #subtitle {
+  color: black;
+  font-size: 1.5em;
+}
+
 #moto {
   margin-top: 5%;
   text-align: center;
   color: #6600cc;
   font-family: coalition;
-  font-size: 5em;
+  font-size: 8em;
 }
 #moto span {
   color: #71d100;
 }
+
+@media only screen and (min-width: 768px) {
+#title {
+  font-size: 2.5em;
+}
+
+#subtitle {
+  font-size: 1.25em;
+}
+
+#subtitle a {
+  font-size: 1em;
+}
+
+#moto #subtitle {
+  font-size: 0.5em;
+}
+
+#moto {
+  font-size: 5em;
+}
+
+}
+
 
 .stack {
   padding: 1em;
@@ -124,7 +180,7 @@ hr {
   display: inline-block;
 }
 .stack img {
-  margin: 0 2em;
+  margin: 0 1em;
   height: 3rem;
 }
 

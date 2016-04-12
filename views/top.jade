@@ -1,5 +1,5 @@
 doctype html
-html(ng-app="compMan")
+html(ng-app="compMan" ng-init="openNavbar=false;")
 	head
 		link(rel="stylesheet" type="text/css" href="/css/bulma.min.css")
 		link(rel='stylesheet' type='text/css' href='/css/main.css')
@@ -14,11 +14,12 @@ html(ng-app="compMan")
 		script(src="/js/angular-moment.min.js")
 		script(src="/js/angular-modal-service.min.js")
 		script(src="/js/app.js")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
 		title Natečaj MegaVET
 	body
 		header.header: .container
-			.header-left: .header-item.title.is-3 Natečaj za logotip MegaVET
-			.header-right.header-menu
+			.header-left: .header-item.title.is-3 MegaVET
+			.header-right.header-menu(ng-class="{'is-active': openNavbar}")
 				.header-item
 					if user.type == "admin"
 						i.fa.fa-unlock &nbsp;
@@ -29,7 +30,7 @@ html(ng-app="compMan")
 					if page !== "/"
 						a.button.is-info(href="/") Domov
 					a.button.is-danger(href="/logout") Odjava
-			span.header-toggle
+			span.header-toggle(ng-class="{'is-active': openNavbar}" ng-click="openNavbar=!openNavbar")
 				span
 				span
 				span
