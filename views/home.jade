@@ -9,7 +9,7 @@ block content
 				i.fa.fa-plus
 				| Oddaj novo
 	.columns(ng-controller="submissionCtrl")
-		.card(ng-repeat="submission in submissions")
+		.card(ng-repeat="submission in submissions track by $index")
 			.card-image
 				img(ng-src='/file/{{submission.thumbnail}}', alt='')
 			.card-content

@@ -1,7 +1,7 @@
 html
 	head
 		link(rel='stylesheet', type='text/css', href='main.css')
-
+		meta(name='viewport', content='width=device-width, initial-scale=1')
 	body
 		header
 			.stack
@@ -14,11 +14,12 @@ html
 						img(src='img/ajans.jpg')
 					li
 						img(src='img/scnm.png')
-					.float-right
-						li
-							a.button NAVODILA
-						li
-							a.button(href="/saml") PRIJAVA
+			.control
+				ul
+					li
+						a.button NAVODILA
+					li
+						a.button(href="/saml") PRIJAVA
 			hr
 		main
 			.content
