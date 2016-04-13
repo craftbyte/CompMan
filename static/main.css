@@ -10,7 +10,7 @@
 }
 
 html, body {
-  height:100%;
+  margin: 0 !important;
 }
 
 body {
@@ -33,6 +33,10 @@ body::after {
 
 header {
   background-color: #EEEEEE;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 999;
 }
 
 header .stack {
@@ -44,6 +48,7 @@ footer {
   width: 100%;
   position: fixed;
   bottom: 0;
+  z-index: 999;
 }
 
 footer .stack {
@@ -51,11 +56,15 @@ footer .stack {
 }
 
 main {
-  margin: auto 2%;
+  margin: 5.8em 2%;
   text-align: center;
-  position: relative;
+}
+
+.content {
+  width: calc(100% - 2%);
+  position: absolute;
   top: 50%;
-  transform: translateY(-80%);
+  transform: translateY(-50%);
 }
 
 hr {

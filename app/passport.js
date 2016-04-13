@@ -86,7 +86,7 @@ passport.use('local-signup', new LocalStrategy({usernameField: 'email', passReqT
 			user.email = email;
 			user.name = req.body.name.toProperCase();
 			user.surname = req.body.surname.toProperCase();
-			user.class = req.body.class.toProperCase();
+			user.school = req.body.class.toProperCase();
 			user.local.password = user.generateHash(password);
 			var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 			user.lastIp=ip;

@@ -1,8 +1,17 @@
-html
+html(ng-app='compMan')
 	head
+		script(src="/js/jquery-2.2.2.min.js")
+		script(src="/js/vex.combined.min.js")
+		script(src="/js/angular.min.js")
+		script(src="/js/moment.min.js")
+		script(src="/js/angular-moment.min.js")
+		script(src="/js/angular-modal-service.min.js")
+		script(src="/js/app.js")
 		link(rel='stylesheet', type='text/css', href='main.css')
+		link(rel="stylesheet" href="/css/vex.css")
+		link(rel="stylesheet" href="/css/vex-theme-top.css")
 		meta(name='viewport', content='width=device-width, initial-scale=1')
-	body
+	body(ng-controller='loginCtrl')
 		header
 			.stack
 				ul
@@ -17,9 +26,13 @@ html
 			.control
 				ul
 					li
-						a.button NAVODILA
+						a.button(href='mailto:megavet@sc-nm.si') KONTAKT
 					li
-						a.button(href="/saml") PRIJAVA
+						a.button(href='/megavet.pdf') NAVODILA
+					li
+						a.button(ng-click='signUp()') REGISTRACIJA
+					li
+						a.button(ng-click='login()') PRIJAVA
 			hr
 		main
 			.content

@@ -3,8 +3,13 @@
 angular.module('compMan', ['angularMoment', 'angularModalService'])
 .controller('loginCtrl', ['$http', '$scope', '$window', ($http, $scope, $window) => {
 	var vex = $window.vex;
-	$scope.login = () => {
-		vex.dialog.open({
+	var login = (arg) => {
+		if(arg == "saml"){
+			$scope.loginPending=true;
+			$scope.$apply();
+			$window.location = "/saml"
+		}else{
+			vex.dialog.open({
 			message: "Vpiši podatke za prijavo",
 			input: "<input name=\"email\" type=\"email\" placeholder=\"E-poštni naslov\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Geslo\" required />",
 			buttons: [
@@ -29,12 +34,32 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 				}
 			}
 		})
+		}
+	}
+	$scope.login = () => {
+		vex.dialog.open({
+			message: "Izberite način prijave",
+			buttons: [
+				$.extend({}, vex.dialog.buttons.YES, {
+					text: 'Eduroam',
+					click: function($vexContent, event) {
+						login('saml');
+					}
+				}), $.extend({}, vex.dialog.buttons.YES, {
+					text: 'E-pošta',
+					click: function($vexContent, event) {
+						login('local');
+					}
+				})
+			],
+			overlayClosesOnClick: false
+		})
 	}
 
 	$scope.signUp = () => {
 		vex.dialog.open({
 			message: "Vpiši podatke za registracijo",
-			input: "<input name=\"name\" type=\"text\" placeholder=\"Ime\" required />\n<input name=\"surname\" type=\"text\" placeholder=\"Priimek\" required />\n<input name=\"class\" type=\"text\" placeholder=\"Razred\" required />\n<input name=\"email\" type=\"email\" placeholder=\"E-poštni naslov\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Geslo\" required />",
+			input: "<input name=\"name\" type=\"text\" placeholder=\"Ime\" required />\n<input name=\"surname\" type=\"text\" placeholder=\"Priimek\" required />\n<input name=\"class\" type=\"text\" placeholder=\"Šola\" required />\n<input name=\"email\" type=\"email\" placeholder=\"E-poštni naslov\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Geslo\" required />",
 			buttons: [
 				$.extend({}, vex.dialog.buttons.YES, {
 					text: 'Registracija'
@@ -48,7 +73,7 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 					$scope.registerPending=true;
 					$scope.$apply();
 					$http.post('/register', data).then((response) => {
-						$window.location = "/auth"
+						$window.location = "/"
 					}, (response) => {
 						vex.dialog.alert("E-naslov je že v uporabi")
 						$scope.registerPending=false;
