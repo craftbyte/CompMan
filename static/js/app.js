@@ -51,8 +51,7 @@ angular.module('compMan', ['angularMoment', 'angularModalService'])
 						login('local');
 					}
 				})
-			],
-			overlayClosesOnClick: false
+			]
 		})
 	}
 
